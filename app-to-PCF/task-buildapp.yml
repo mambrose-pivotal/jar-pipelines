@@ -10,4 +10,4 @@ outputs:
   - name: java-app-jar
 
 run:
-  path: ./jar-pipelines/app-to-PCF/task-buildapp.sh
+  path: jar-pipelines/app-to-PCF/task-buildapp.sh
