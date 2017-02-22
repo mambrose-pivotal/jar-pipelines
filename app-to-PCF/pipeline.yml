@@ -1,8 +1,13 @@
 resources:
-- name: resource-java-app
+- name: java-app-src
   type: git
   source:
     uri: https://github.com/cloudfoundry-samples/spring-music
+
+- name: app-to-PCF
+  type: git
+  source:
+    uri: https://github.com/mambrose-pivotal/jar-pipelines
 
 - name: resource-deploy-java-app
   type: cf
@@ -15,17 +20,20 @@ resources:
     skip_cert_check: true
 
 jobs:
-- name: job-build-app
+-name: build-java-app
+  serial: true
   plan:
-    get: resource-java-app
-    path: ./gradlew
-    args: assemble
+    - get: java-app-src
+    - get: app-to-PCF
+    - task: build-java-app
+      file: app-to-PCF/task-buildapp.yml
 
 - name: job-deploy-app
   serial: true
   plan:
-  - {get: resource-java-app, trigger: true}
+  - get: resource-java-app
+    trigger: tru
   - put: resource-deploy-java-app
     params:
-      manifest: resource-java--app/manifest.yml
+      manifest: resource-java-app/manifest.yml
       path: resource-java-app
