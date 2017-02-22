@@ -9,4 +9,5 @@ inputs:
 outputs:
   - name: java-app-jar
 
-run: jar-pipelines/app-to-PCF/task-buildapp.sh
+run:
+  path: jar-pipelines/app-to-PCF/task-buildapp.sh
