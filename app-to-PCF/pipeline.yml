@@ -1,0 +1,31 @@
+resources:
+- name: resource-java-app
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry-samples/spring-music
+
+- name: resource-deploy-java-app
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-organization}}
+    space: {{cf-space}}
+    skip_cert_check: true
+
+jobs:
+- name: job-build-app
+  plan:
+    get: resource-java-app
+    path: ./gradlew
+    args: assemble
+
+- name: job-deploy-app
+  serial: true
+  plan:
+  - {get: resource-java-app, trigger: true}
+  - put: resource-deploy-java-app
+    params:
+      manifest: resource-java--app/manifest.yml
+      path: resource-java-app
