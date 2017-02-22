@@ -4,36 +4,36 @@ resources:
   source:
     uri: https://github.com/cloudfoundry-samples/spring-music
 
-- name: app-to-PCF
+- name: jar-pipelines
   type: git
   source:
     uri: https://github.com/mambrose-pivotal/jar-pipelines
 
-- name: resource-deploy-java-app
-  type: cf
-  source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-organization}}
-    space: {{cf-space}}
-    skip_cert_check: true
+##- name: resource-deploy-java-app
+##  type: cf
+##  source:
+##    api: {{cf-api}}
+##    username: {{cf-username}}
+##    password: {{cf-password}}
+##    organization: {{cf-organization}}
+##    space: {{cf-space}}
+##    skip_cert_check: true
 
 jobs:
--name: build-java-app
+- name: build-java-app
   serial: true
   plan:
     - get: java-app-src
-    - get: app-to-PCF
+    - get: jar-pipelines
     - task: build-java-app
-      file: app-to-PCF/task-buildapp.yml
+      file: jar-pipelines/app-to-PCF/task-buildapp.yml
 
-- name: job-deploy-app
-  serial: true
-  plan:
-  - get: resource-java-app
-    trigger: tru
-  - put: resource-deploy-java-app
-    params:
-      manifest: resource-java-app/manifest.yml
-      path: resource-java-app
+##- name: job-deploy-app
+##  serial: true
+##  plan:
+##  - get: java-app-jar
+##    trigger: true
+##  - put: resource-deploy-java-app
+##    params:
+##      manifest: resource-java-app/manifest.yml
+##      path: resource-java-app
