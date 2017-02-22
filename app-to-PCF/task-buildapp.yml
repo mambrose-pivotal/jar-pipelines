@@ -4,10 +4,9 @@ image: docker:///datianshi/gradle
 
 inputs:
   - name: java-app-src
+  - name: jar-pipelines
 
 outputs:
   - name: java-app-jar
 
-run:
-  path: ./gradlew
-  args: [assemble]
+run: jar-pipelines/app-to-PCF/task-buildapp.sh
