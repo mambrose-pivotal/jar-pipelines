@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -e
+##set -e
 ## version=`cat version/number`
-cd spring-music
+cd ~./java-app-src
 #echo $version
 ./gradlew assemble
 #ls build/libs/
