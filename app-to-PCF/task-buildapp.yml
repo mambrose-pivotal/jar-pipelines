@@ -10,7 +10,7 @@ inputs:
   - name: java-app-src
 
 outputs:
-  -name: java-app-jar
+  - name: java-app-jar
 
 run:
   path: ./gradlew
